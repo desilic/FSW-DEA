@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .uploader {
+            display: flex;
+            align-items: center;
+        }
+
+        .slider-track {
+            width: 70vw;
+            height: 8px;
+            background-color: #080101;
+            margin: 20px 10px 20px 0;
+            border-radius: 4px;
+        }
+
+        .slider-bar {
+            height: 8px;
+            width: 0px;
+            border-radius: inherit;
+            background-image: linear-gradient(to right, #018eb2, #29c9eb);
+            transition: width;
+        }
+
+    </style>
+</head>
+
+<body>
+
+        <input type="file" onchange="uploadFile(this.files)">
+        <div class="uploader">
+            <div class="slider-track">
+                <div class="slider-bar"></div>
+            </div>
+            <div>
+                <span class="percentage">0</span>%
+            </div>
+        </div>
+
+
+
+    <script>
+        function uploadFile(files) {
+            let fd = new FormData();
+            fd.append('file', files[0], "1.jpg")
+            let xhr = new XMLHttpRequest();
+            let sliderBar = document.querySelector(".slider-bar")
+            sliderBar.style.width = "0"
+            xhr.upload.addEventListener("progress", function (e) {
+                let percentage = e.loaded / e.total * 100
+                sliderBar.style.width =  `${percentage}%`
+                document.querySelector(".percentage").innerHTML = `${percentage.toFixed(2)}`
+            })
+            xhr.open('post', 'http://127.0.0.1:5000/uploadd')
+            xhr.send(fd)
+        }
+    </script>
+</body>
+
+</html>

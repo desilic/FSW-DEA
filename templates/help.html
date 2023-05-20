@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Help</title>
+    <style>
+        /*1.为各部分区域设计统一样式；*/
+        *{
+            /*按box尺寸计算*/
+            box-sizing: border-box;
+            /*全局取消元素内外边距*/
+            padding: 0px;
+           /* margin: 0px;*/
+        }
+        a{
+            color: black;
+            text-decoration: none;
+        }
+        .area {
+            /*全局颜色、背景、边框*/
+            padding: 10px;
+
+            border-radius: 5px;
+
+        }
+
+        /*2.弹性栅格布局页面: 3个行容器：header，footer，main */
+        .row{
+            /*弹性布局*/
+            display: flex;
+            /*行中空间不足元素不换行 */
+            flex-wrap: nowrap;
+
+            justify-content: center;
+        }
+        .sidebar{
+            /*main中sidebar最小宽度200px*/
+            min-width: 200px;
+        }
+        .article{
+            /*article占剩余全部*/
+            width: 80%;
+            /*border: none;*/
+        }
+
+        /*3.上导航navigation bar*/
+        .nav ul{
+            /*添加背景色/悬浮字体颜色等样式*/
+            display:flex;
+            list-style-type:none;/*取消list样式*/
+            background-color: #333;
+        }
+        .nav li a{
+            display: block;
+            color: white;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        .nav li a:hover{
+            background-color: #111 ;
+        }
+        .nav .right {
+            /*将logout推至最右侧*/
+            margin-left:  auto;
+        }
+
+        /*4.页脚 */
+        .footer{
+            /*元素居中，字体居中*/
+            justify-content: center; /*居中flex项*/
+            text-align: center;      /*居中字体*/
+            background-color: #333;
+            color: white;
+
+        }
+
+
+
+        /*-------- 分12列：12栅格 -----------  */
+        .col-md-1 {width: 8.33%;}
+        .col-md-2 {width: 16.67%;}
+        .col-md-3 {width: 25%;}
+        .col-md-4 {width: 33.33%;}
+        .col-md-5 {width: 41.67%;}
+        .col-md-6 {width: 50%;}
+        .col-md-7 {width: 58.33%;}
+        .col-md-8 {width: 66.67%;}
+        .col-md-9 {width: 75%;}
+        .col-md-10 {width: 83.33%;}
+        .col-md-11 {width: 91.67%;}
+        .col-md-12 {width: 100%;}
+
+
+        /*6.响应式布局*/
+        @media (max-width: 900px) {
+            .col-sm-1 {width: 8.33%;}
+            .col-sm-2 {width: 16.67%;}
+            .col-sm-3 {width: 25%;}
+            .col-sm-4 {width: 33.33%;}
+            .col-sm-5 {width: 41.67%;}
+            .col-sm-6 {width: 50%;}
+            .col-sm-7 {width: 58.33%;}
+            .col-sm-8 {width: 66.67%;}
+            .col-sm-9 {width: 75%;}
+            .col-sm-10 {width: 83.33%;}
+            .col-sm-11 {width: 91.67%;}
+            .col-sm-12 {width: 100%;}
+        }
+        @media (max-width: 900px) {
+            .row,.section{
+                flex-direction: column;
+            }
+            .sidebar ul{
+                display: flex;
+            }
+        }
+
+
+        .banner{
+            height: 550px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+        .thumb{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .section{
+            display: flex;
+        }
+        .section-1{
+            flex-basis: 100%;
+            margin: 10px;
+            background-color: whitesmoke;
+        }
+        .section-2{
+            flex-basis: 50%;
+            background-color: whitesmoke;
+            margin: 10px;
+        }
+        .section-3{
+            flex-basis: 33%;
+            margin: 10px;
+            background-color: whitesmoke;
+            /*
+            #ffec99 黄色
+            #f4dae3 粉色
+            #b3ecde 淡绿色*/
+        }
+        /*
+        .a{background-color: #f4dae3;}
+        .b{background-color: #b3ecde;}
+        .c{background-color: #ffec99;}
+        */
+        .ico_im ul{
+            display: flex;
+            justify-content: space-around;
+            list-style: none;
+        }
+
+        .sub_ul{
+            padding: 15px;
+
+        }
+        .section a{
+            text-decoration: none;
+        }
+
+        .navs .sub {
+            display: none;
+            padding: 10px 20px;
+            position: absolute;
+            top: 45px;
+            background: #0f345b;
+            min-width: 80px;
+            opacity: 0.6;
+        }
+
+        .title{
+            padding: 10px;
+        }
+        hr{
+            margin-top: 10px;
+        }
+        .row2{
+            background-image: url(resources/dd.png);
+            background-position-x: left;
+            background-position-y: center;
+            background-size: initial;
+            background-repeat-x: repeat;
+            background-repeat-y: no-repeat;
+            background-attachment: initial;
+            background-color: initial;
+            background-clip: initial;
+            background-origin: initial;
+        }
+        .layout{
+            /*background-image: url("bg-ssss.jpg");*/
+            background-color: rgb(235, 235, 235);
+        }
+        .article{
+            background-color: #e9e9e9;
+        }
+        h2{
+            padding: 10px;
+            margin: 0px;
+            background-color: #487AAF;
+            color: white;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="layout">
+
+    <div class="area row">
+        <!-- article1 -->
+        <div class="area article section">
+
+            <div class="area section-1 col-sm-12">
+                <h2>User Guide</h2>
+                <div>
+                    <h3>Introduction</h3>
+                    <p>
+                        This a user guide & quick start page about the fsw-dea tool.<br>
+
+                    </p>
+                </div>
+                <div>
+                    <h3>Input</h3>
+                    <p>
+                        The input file should in an xlsx format.
+                        The data requires rows and columns corresponding to samples and features,
+                        table headers and column names are essential.
+                        You can upload your local files or use the example data set
+                        <a href="/downloads/simulation.csv"><strong style="color:blue">here</strong></a> to have a quick start.
+                    </p>
+                </div>
+
+                <div>
+                    <h3>Output</h3>
+                    <p>
+                        After uploading the data files and entering the parameters, you can click the <strong> submit</strong> button
+                        to begin the training. After running, figures and tables can be seen.<br>
+                        The download button will also be displayed where you can get the detailed evaluation metrics table.
+                    </p>
+
+                </div>
+                <div>
+                    <h3>Example</h3>
+                    <p>
+                        There is a simulation data set with 500 samples in 50 dimensions.
+                        You can download the data set and have a quick start by entering the parameters of n and r with n equal to 2 and r equal to 100.<br>
+                        The first 48 variables are independently identically distributed in this data set and obey one normal distribution.
+                        The 48th and 49th variables obey a two-dimensional normal distribution and are divided into two sample groups.
+                    </p>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="area row">
+        <br><br><br><br><br><br>
+    </div>
+
+    <!-- footer -->
+    <div class="area row footer">
+        <div class="col-md-12">
+            <p style="margin: auto">Northeast Forestry University<br>
+                Bio-Bigdata Lab&copy;</p>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

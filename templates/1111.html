@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
+    <style>
+
+        a.download {
+           color: white;
+           text-decoration: none;
+           background-color: #487AAF;
+           padding: 14px 16px;
+       }
+
+       a.download:hover{
+            opacity:0.8;
+        }
+
+    </style>
+</head>
+<body>
+
+    <ul class="navs">
+            <li id="s1"><div class="fig">FIG 1</div></li>
+            <li><div class="fig">FIG 2</div></li>
+            <li><div class="fig">FIG 3</div></li>
+            <li><div class="fig">FIG 4</div></li>
+            <li><div class="fig">FIG 5</div></li>
+            <!--<li class="right"><a href="#"></a></li>-->
+    </ul>
+    <img class="clf" src="../static/img/Gauss.jpg" width="200px" >
+
+    <a class="download" href="#">
+        download
+    </a>
+</body>
+
+<script>
+
+        $(function(){
+            $("#s1").click(
+                function (){
+                  //$("img").attr("src","../static/img/gene_importance.jpg");
+                  $("img").prop("width","900px");
+                }
+            );
+
+  });
+
+    </script>
+
+
+</html>

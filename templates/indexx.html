@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>web_clf</title>
+    
+    
+    <!-- 引入CSS文件 -->
+    <link rel="stylesheet" type="text/css" href="static/bootstrap.min.css"/>
+    <!-- 引入jquery -->
+    <script src="static/jquery-3.1.1.min.js" type="text/javascript" charset="utf-8"></script>
+    <!-- 引入bootstrap的JS -->
+    <script src="static/bootstrap.bundle.min.js" type="text/javascript" charset="utf-8"></script>
+    
+    <!--
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>-->
+    <!-- CSS 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    -->
+    <!-- jQuery and JavaScript Bundle with Popper 
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+    -->
+    <!--
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"></script></head>-->
+
+    <style>
+        /*1.为各部分区域设计统一样式；*/
+        *{
+            /*按box尺寸计算*/
+            box-sizing: border-box;
+            /*全局取消元素内外边距*/
+            padding: 0px;
+            margin: 0px;
+        }
+        a{
+            color: black;
+            text-decoration: none;
+        }
+        .area {
+            /*全局颜色、背景、边框*/
+            padding: 10px;
+
+            /*#f9f9f9
+            back-ground-color: #ffec99 黄色
+            #f4dae3 粉色
+            #b3ecde 淡绿色
+
+            */
+            border-radius: 5px;
+        }
+
+        /*2.弹性栅格布局页面: 3个行容器：header，footer，main */
+        .row{
+            /*弹性布局*/
+            display: flex;
+            /*行中空间不足元素不换行 */
+            flex-wrap: nowrap;
+
+            justify-content: center;
+            /*border: none;*/
+
+        }/*
+        .sidebar{
+            /*main中sidebar最小宽度200px
+            min-width: 200px;
+        }*/
+        .article{
+            /*article占剩余全部*/
+            width: 80%;
+            /*border: none;*/
+        }
+
+        /*3.上导航navigation bar*/
+        .navw ul{
+            /*添加背景色/悬浮字体颜色等样式*/
+            display:flex;
+            list-style-type:none;/*取消list样式*/
+            background-color: #333;/**#0c4491 #0f345b  ;#3B699B*/
+        }
+        .navw li a{
+            display: block;
+            color: white;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        .navw li a:hover{
+            background-color: #111 ;
+        }
+        .navw .right {
+            /*将logout推至最右侧*/
+            margin-left:  auto;
+        }
+
+        /*4.页脚 */
+        .footer{
+            /*元素居中，字体居中*/
+            justify-content: center; /*居中flex项*/
+            text-align: center;      /*居中字体*/
+            background-color: #333/*#0c4491 #3B699B*/;
+            color: white;
+        }
+
+
+
+        /*-------- 分12列：12栅格 -----------  */
+        .col-md-1 {width: 8.33%;}
+        .col-md-2 {width: 16.67%;}
+        .col-md-3 {width: 25%;}
+        .col-md-4 {width: 33.33%;}
+        .col-md-5 {width: 41.67%;}
+        .col-md-6 {width: 50%;}
+        .col-md-7 {width: 58.33%;}
+        .col-md-8 {width: 66.67%;}
+        .col-md-9 {width: 75%;}
+        .col-md-10 {width: 83.33%;}
+        .col-md-11 {width: 91.67%;}
+        .col-md-12 {width: 100%;}
+
+
+        /*6.响应式布局*/
+        @media (max-width: 900px) {
+            .col-sm-1 {width: 8.33%;}
+            .col-sm-2 {width: 16.67%;}
+            .col-sm-3 {width: 25%;}
+            .col-sm-4 {width: 33.33%;}
+            .col-sm-5 {width: 41.67%;}
+            .col-sm-6 {width: 50%;}
+            .col-sm-7 {width: 58.33%;}
+            .col-sm-8 {width: 66.67%;}
+            .col-sm-9 {width: 75%;}
+            .col-sm-10 {width: 83.33%;}
+            .col-sm-11 {width: 91.67%;}
+            .col-sm-12 {width: 100%;}
+        }
+        @media (max-width: 900px) {
+            .row,.section{
+                flex-direction: column;
+            }
+            .sidebar ul{
+                display: flex;
+            }
+        }
+
+
+        .banner{
+            height: 550px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+        .thumb{
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .section{
+            display: flex;
+        }
+        .section-1{
+            flex-basis: 100%;
+            margin: 10px;
+            background-color: whitesmoke;
+        }
+        .section-2{
+            flex-basis: 50%;
+            background-color: whitesmoke;
+            margin: 10px;
+        }
+        .section-3{
+            flex-basis: 33%;
+            margin: 10px;
+            background-color: whitesmoke;
+            /*
+            #ffec99 黄色
+            #f4dae3 粉色
+            #b3ecde 淡绿色*/
+        }
+        /*
+        .a{background-color: #f4dae3;}
+        .b{background-color: #b3ecde;}
+        .c{background-color: #ffec99;}
+        */
+        .ico_im ul{
+            display: flex;
+            justify-content: space-around;
+            list-style: none;
+        }
+        /*
+        .sub_ul{
+            padding: 15px;
+
+        }*/
+        .section a{
+            text-decoration: none;
+        }
+
+        .navs .sub {
+            display: none;
+            padding: 10px 20px;
+            position: absolute;
+            top: 45px;
+            background: #0f345b;
+            min-width: 80px;
+            opacity: 0.6;
+        }
+
+        .title{
+            padding: 10px;
+        }
+        hr{
+            margin-top: 10px;
+        }
+        .row2{
+            background-image: url(resources/dd.png);
+            background-position-x: left;
+            background-position-y: center;
+            background-size: initial;
+            background-repeat-x: repeat;
+            background-repeat-y: no-repeat;
+            background-attachment: initial;
+            background-color: initial;
+            background-clip: initial;
+            background-origin: initial;
+        }
+        .layout{
+            /*background-image: url("bg-ssss.jpg");*/
+            background-color: rgb(235, 235, 235);
+        }
+        .article{
+            background-color: #e9e9e9;
+        }
+        h2.sub_title{
+            padding: 10px;
+            background-color: #487AAF;
+            color: white;
+        }
+
+        .zhuan{
+            width: 100%;
+            height: 100%;
+        }
+
+       .clf{
+           width: 100%
+       }
+        /*上传文件*/
+       .uploader {
+            display: flex;
+            align-items: center;
+        }
+        .slider-track {
+            width: 100%; /*单位vw会溢出*/
+            height: 8px;
+            background-color: #080101;
+            margin: 10px 10px 10px 0;
+            border-radius: 4px;
+        }
+        .slider-bar {
+            height: 8px;
+            width: 0px;
+            border-radius: inherit;
+            background-image: linear-gradient(to right, #018eb2, #29c9eb);
+            transition: width;
+        }
+       .upload_input{
+           display: flex;
+           justify-content: space-around;
+       }
+       .upload_here{
+           width:45%;
+       }
+       .description{
+           width:45%;
+           /*border: solid darkgrey;*/
+       }
+       .up_file{
+           /*border: 5px solid red;*/
+           /*width:80%;*/
+       }
+        /*figure选项卡*/
+       .nav_fig ul{
+            /*添加背景色/悬浮字体颜色等样式*/
+            display:flex;
+            list-style-type:none;/*取消list样式*/
+            background-color: white;/**#0c4491 #0f345b  ;#3B699B*/
+            /*justify-content: center;*/
+        }
+       .fig{
+           display: block;
+           color: black;/*white;
+           background-color:#333;*/
+           padding: 14px 16px;
+       }
+       .fig:hover{
+           /*border: solid white;*/
+           background-color:aliceblue;
+           /*#111 ;*/
+       }
+       /*download*/
+        /*
+       a.download {
+           color: white;
+           text-decoration: none;
+           background-color: #487AAF;
+           padding: 14px 16px;
+       }
+
+       a.download:hover{
+            opacity:0.9;
+       }
+       button{
+          border: none;
+          color: white;
+          background-color: #487AAF;
+          padding: 8px 11px;
+       }
+       button:hover{
+            opacity:0.9;
+       }*/
+       /*table */
+        table{
+            width:100%;                 /*占用最大宽度*/
+            border-collapse: collapse; /*合并边框*/
+        }
+
+        table td, table th{
+            text-align: center;
+            padding: 10px;
+            border-bottom: 1px solid #dddddd;
+        }
+        tbody tr:nth-child(odd) {
+            background-color: #f2f2f2;
+        }
+        /*span*/
+        span.label{
+            color: white;
+            border-radius: 3px;
+            padding: 2px 5px; /*0表示上下内边距默认？*/
+            margin-top: 5px;
+        }
+        /*层叠的第二层：label-success label-warning的样式*/
+        span.label-success{
+            background-color: green;
+        }
+        /*
+        .info{
+            background-color: white;
+            padding: 5px 10px;
+            margin-bottom: 10px;
+            border: solid;
+            border-color: #dee2e6;
+        }*/
+
+    </style>
+
+</head>
+<body>
+<div class="layout">
+    <!-- header -->
+    <div class="area row ">
+        <div class="navw col-md-12">
+            <ul class="navs">
+                <li class="fl">
+                    <a href="/">home</a>
+                    <ul class="sub">
+                        <li><a href="#">p11</a></li>
+                        <li><a href="#">p22</a></li>
+                        <li><a href="#">p33</a></li>
+                    </ul>
+                </li>
+                <li><a href="/help">help</a></li>
+                <li><a href="https://bioinfor.nefu.edu.cn/">laboratory</a></li>
+                <li><a href="#"></a></li>
+                <li><a href="#"></a></li>
+                <li><a href="#"></a></li><!--
+                <li class="right"><a href="#"></a></li>-->
+            </ul>
+        </div>
+    </div>
+
+
+
+    <!-- main  -->
+
+    <div class="area row">
+        <!-- article1 -->
+        <div class="area article section">
+
+            <div class="area section-1 col-sm-12">
+                <a href="employment.html"><h2 class="sub_title">Feature selection web tool</h2></a><br>
+
+                <div class="upload_input">
+
+
+                    <div class="upload_here">
+                        <div class="mb-2 mt-2">
+                            <span class="">gene expression files:  </span>
+                        </div>
+                        <div class="up_file">
+                            <input type="hidden" class='file_id' name="file_id" value="{{ uid }}">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="customFile" onchange="uploadFile(this.files)">
+                                <label class="custom-file-label" for="customFile">choose files</label>
+                            </div>
+                            <!--<input type="file" class="form-control" onchange="uploadFile(this.files)"> <br>-->
+                            <span class="label label-success" id="features" style="display: none"> Total feature numbers: </span>
+
+                            <div class="uploader">
+                                <div class="slider-track">
+                                    <div class="slider-bar"></div>
+                                </div>
+                                <div>
+                                    <span class="percentage">0</span>%
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="up_parameter">
+                            <form action="upload" method="post" enctype="multipart/form-data">
+                                <!-- files: <input type="file" name="file" /> <br>
+
+                                number of features: <br>
+                                <input type="number" name="n_feature" required oninvalid="setCustomValidity('Please enter a valid number.')" oninput="setCustomValidity('')" /> <br>
+                                rounds: <br>
+                                <input type="number" name="times" required oninvalid="setCustomValidity('Please enter a valid number.')" oninput="setCustomValidity('')" /> <br> <br>
+                                <input type="hidden" name="page_uid" value="{{ uid }}">
+
+                                <button type="submit">submit</button> -->
+
+
+                                    <div class="mb-3 mt-3">
+                                        <label for="features_enter" class="form-label">feature numbers：</label>
+                                        <input type="number" class="form-control" id="features_enter" required oninvalid="setCustomValidity('Please enter a valid number.')" oninput="setCustomValidity('')" placeholder="please enter the number of features" name="n_feature">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="r_enter" class="form-label">running rounds：</label>
+                                        <input type="number" class="form-control" id="r_enter" required oninvalid="setCustomValidity('Please enter a valid number.')" oninput="setCustomValidity('')"  placeholder="please enter the running rounds" name="times">
+                                        <input type="hidden" name="page_uid" value="{{ uid }}">
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary">submit</button>
+                            </form>
+                    </div>
+                    </div>
+
+                    <div class="description info">
+                        <div class="card ">
+                            <div class="card-body">
+                                <h4 class="card-title">Operation Guide</h4> <br >
+                                <p class="card-text">This is a short introduction to the differential analysis web tool based on the ensemble classifier(FSW-DEAs).
+                                    If you want to get the signature of your gene file, you can upload your gene expression file here and
+                                    then choose the running rounds and number of features expected to select in one round.
+                                    For more information, you can see in <a href="/help" class="card-link" style="color:blue">here</a>.
+                                </p>
+                                <p class="card-text">
+                                    
+                                </p>
+                                <h4 class="card-title">Execution Process</h4> <br>
+                                <p class="card-text">
+                                    First of all, you should upload your file.
+                                    Then, you can see the number of features. This can help you choose the parameters.
+                                    Finally,click the submit button and wait some time, you can see the results below.
+                                    For more information, you can see in <a href="/help" class="card-link" style="color:blue">here</a>.
+                                </p>
+
+                            </div>
+                        </div>
+                        <!--
+                        <p>This is the description of the differential analysis web tool based on the ensemble classifier.
+                        </p>
+                        <br>
+                        <p>If you want to get the signature of your gene file, you can uploads your gene file here and
+                            then choose the running rounds and number of features expected to select in one round.
+                        </p>
+                        <br>
+                        <p>Running results will be shown below. You can see the gene importance and roc curves for different
+                        theholds.
+                        </p>
+                        <br>
+                        <p>For more detail, you can click here!</p>-->
+                    </div>
+                </div>
+
+
+
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <div class="area row">
+        <!-- article1 -->
+        <div class="area article section">
+
+            <div class="area section-2 col-sm-12">
+                <a href="#"><h2 class="sub_title">Gene importance</h2></a>
+
+            
+                <ul class="nav nav-tabs">
+                   <li class="nav-item" id="f1">
+                     <a class="nav-link active" data-toggle="tab" href="#home">Gauss mixture</a>
+                   </li>
+                   <li class="nav-item" id="f2">
+                     <a class="nav-link" data-toggle="tab" href="#menu1">Gene importance</a>
+                   </li>
+                   <li class="nav-item" id="f3">
+                     <a class="nav-link" data-toggle="tab" href="#menu2">Feature count</a>
+                   </li>
+                </ul>
+
+             
+
+                <ul class="sub_ul">
+                    <div class="accordion" id="accordionExample">
+                      <div class="card">
+                        <div class="card-header" id="headingOne">
+                          <h2 class="mb-0">
+                            <button class="btn btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                              Gene importance
+                            </button>
+                          </h2>
+                        </div>
+
+                        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                          <div class="card-body">
+                            <strong>You can see the gene importance score of each gene and the fitted Gauss mixture distribution here.</strong>
+                                    <!--more detail here <a href="#" class="card-link">another link</a>-->
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+
+                    {% if metris %}
+                        <div >
+                            <img class="clf" id="clf_Gene_importance" src="/static/img/Gauss.jpg" >
+                            <br>
+                        </div>
+
+                    {% else %}
+                        <img src="static/img/Gauss.jpg" style="width: 100%;object-fit: contain" >
+                    {% endif %}
+                </ul>
+            </div>
+
+            <div class="area section-2 col-sm-12">
+                <a href="#"><h2 class="sub_title">Roc curves of selected genes</h2></a>
+
+       
+
+                <ul class="nav nav-tabs">
+                    
+                    {% for info in metris %}
+                        <li class="nav-item" id="f{{ 3+loop.index }}">
+                            <a class="nav-link" data-toggle="tab" href="#menu2">ROC {{ loop.index }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+
+                <ul class="sub_ul">
+                    <div class="accordion" id="accordion_ROC">
+                      <div class="card">
+                        <div class="card-header" id="headingOne">
+                          <h2 class="mb-0">
+                            <button class="btn  btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne_ROC" aria-expanded="true" aria-controls="collapseOne">
+                              ROC curves
+                            </button>
+                          </h2>
+                        </div>
+
+                        <div id="collapseOne_ROC" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion_ROC">
+                          <div class="card-body">
+                            <strong>You can see roc curves of selected genes(signatures) for different thresholds of Gauss mixture model.</strong>
+                                    <!--more details here. <a href="#" class="card-link">other link</a>.-->
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+
+                    {% if metris %}
+                    <div >
+                        <img class="clf" id="clf_selected_genes" src="static/img/roc_1.png" >
+                        <br>
+
+                    </div>
+
+                    {% else %}
+                        <img src="static/img/1.png" style="width: 100%;object-fit: contain" >
+                    {% endif %}
+                </ul>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="area row">
+        <!-- article1 -->
+        <div class="area article section">
+
+            <div class="area section-1 col-sm-12">
+                <a href="#"><h2 class="sub_title">Evaluation metrics</h2></a> <br>
+
+             
+
+                <table>
+                    <!--先写标签框架，再填充内容，tabel按列填充-->
+                    <thead>
+                        <tr>
+                            <th> Total features </th>
+                            <th> TP  </th>
+                            <th> TN  </th>
+                            <th> FP  </th>
+                            <th> FN  </th>
+                            <th> TP rate </th>
+                            <th> FP rate </th>
+                            <th> Precision </th>
+                            <th> Recall </th>
+                            <th> F1 Measure </th>
+                            <th> Balance Accuracy </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for info in metris %}
+                            <tr>
+                                <td> {{ info.features }}</td>
+                                <td> {{ info.TP }}</td>
+                                <td> {{ info.TN }}</td>
+                                <td> {{ info.FP }}</td>
+                                <td> {{ info.FN }}</td>
+                                <td> {{ info.TP_rate }}</td>
+                                <td> {{ info.FP_rate }}</td>
+                                <td> {{ info.Precision }}</td>
+                                <td> {{ info.Recall }}</td>
+                                <td> {{ info.F1_measure }}</td>
+                                <td> {{ info.Accuracy }}</td>
+
+                            </tr>
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+
+                <ul class="sub_ul">
+
+                    {% if metris %}
+                    <div >
+                        <!--
+                        <div>
+                             {{ n_feature}} <br>
+                             {{ times }}
+                        </div>
+                        <br>
+                        <a class="download btn btn-primary" href="/downloads/xxx.xlsx">download</a>-->
+                        <a class="download btn btn-primary" href="/downloads/evaluation_{{ pid }}.xlsx">download</a>
+
+
+
+                    </div>
+
+                    {% else %}
+                        <div>
+                        </div>
+                    {% endif %}
+                </ul>
+            </div>
+
+        </div>
+
+    </div>
+
+    
+
+    <!-- footer -->
+    <div class="area row footer">
+        <div class="col-md-12">
+            <p>Northeast Forestry University<br>
+                Bio-Bigdata Lab&copy;</p>
+        </div>
+    </div>
+</div>
+
+<script>
+        function uploadFile(files) {
+            let fd = new FormData();
+            fd.append('file', files[0])//这里怎么获取文件名or 怎么给文件命名: 直接去掉第3个可选参数（自定义文件名）
+
+            //先获取页面内的uid，再追加到fd里，与file一起post
+            let uid = document.querySelector(".file_id")
+            let uid_str=uid.value
+            fd.append("uuid", uid_str)
+            //for (var value of fd.values()) {
+               //console.log(value);
+            //}
+
+            let xhr = new XMLHttpRequest();
+            let sliderBar = document.querySelector(".slider-bar")
+            sliderBar.style.width = "0"
+            xhr.upload.addEventListener("progress", function (e) {
+                let percentage = e.loaded / e.total * 100
+                sliderBar.style.width =  `${percentage}%`
+                document.querySelector(".percentage").innerHTML = `${percentage.toFixed(2)}`
+            })
+            xhr.open('post', 'http://fsw-dea.com.cn/upload_file')//8787
+            //xhr.open('post', 'http://127.0.0.1:5000/upload_file')//这里好像是自动以post发送了，而不需要再submit
+            //接收响应数据
+            xhr.onreadystatechange = function () {
+                if(xhr.readyState ===4 && xhr.status === 200) {
+                    console.log(xhr.responseText);
+                    var o = document.getElementById("features");
+                    o.innerHTML = o.innerHTML + xhr.responseText;  //直接插入到页面中
+                    o.style.display='block';
+                    //console.log(o.innerHTML);
+                    //console.log("already in function");
+                    
+                }
+                //alert("out if here")
+            }
+            //alert("out function")
+            /*
+            xhr.onreadystatechange = function () {  //绑定响应状态事件监听函数
+                if (xhr.readyState == 4) {  //监听readyState状态
+                    if (xhr.status == 200 || xhr.status == 0) {  //监听HTTP状态码
+                        var o = document.getElementById("features");
+                        o.innerHTML = xhr.responseText;  //直接插入到页面中
+                        console.log(o.innerHTML);
+                        console.log("ddddd");
+                        alert("Hello World");
+                    }
+                    //alert("Hello World"); 所以，问题在于进不去第二个if，即：监听不到目标状态码
+                    alert(xhr.status );
+                }
+            }*/
+            xhr.send(fd)
+            //alert("Hello World")
+
+
+        }
+
+        $(function(){
+            $("#f1").click(function (){$("#clf_Gene_importance").prop("src","/static/img/Gauss.jpg")});
+            $("#f2").click(function (){$("#clf_Gene_importance").prop("src","/static/img/gene_importance.jpg")});
+            $("#f3").click(function (){$("#clf_Gene_importance").prop("src","/static/img/feature_count.jpg")});
+
+            $("#f4").click(function (){$("#clf_selected_genes").prop("src","/static/img/roc_1.png")});
+            $("#f5").click(function (){$("#clf_selected_genes").prop("src","/static/img/roc_2.png")});
+            $("#f6").click(function (){$("#clf_selected_genes").prop("src","/static/img/roc_3.png")});
+            $("#f7").click(function (){$("#clf_selected_genes").prop("src","/static/img/roc_4.png")});
+            $("#f8").click(function (){$("#clf_selected_genes").prop("src","/static/img/roc_5.png")});
+            $("#f9").click(function (){$("#clf_selected_genes").prop("src","/static/img/roc_6.png")});
+            $("#f10").click(function (){$("#clf_selected_genes").prop("src","/static/img/roc_7.png")});
+
+            /*$(".s2").click(
+                    function (){
+                      $("#dd1").css("display","block");
+                      $("#dd2").css("display","none");
+                    }
+            );*/
+             /*$(function(){
+                //点击按钮发送数据
+                $(".uploader").change(function(event){
+                     //关闭表单里面的按钮默认行为
+                     event.preventDefault();
+                     $.post({
+                        //给哪个页面发送网络请求  url取  域名后面的所有东西
+                        'url': '/login/',
+                        //data是发送过去的数据s
+                        'data':{
+                            'username': $('input[name='username']').val()
+                            'password': $('input[name='password']').val()
+                        },
+                        //如果网络请求发送成功，就会执行success里面的函数
+                        //请求成功 是状态码等于200就会执行success里面的函数
+                        否则执行fail里面的函数
+                        'success': function(data){
+                             //data是服务器发送过来的数据
+                             //如果服务器发送过来的是json数据，那么JS底层会将json进行解析
+                             //比如 服务器发送过来的是JSON类型的字典，那么JS底层会将JSOn数据转换成一个对象          if(data['code']==200){
+                                window.location = '/'
+                             }else{
+                                alert(data['message']);
+                             }
+
+                             console.log(data)
+                        },
+                        //如果网络请求发送失败，就会执行fail里面的函数
+                        'fail': function(error){
+                            console.log(error)
+                        }
+                     })
+                })
+              });*/
+
+
+            });
+
+    </script>
+</body>
+</html>
