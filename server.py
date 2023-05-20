@@ -40,7 +40,7 @@ from sklearn.ensemble import VotingClassifier
 UPLOAD_FOLDER = 'uploads' #上传文件要储存的目录
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif','csv','xlsx','xls'} #允许上传的文件扩展名的集合
 
-app = Flask(__name__) #加上 , static_folder="templates" 就打不开img，但是pyecharts貌似要加上 我试试去掉pyecharts还是可以用
+app = Flask(__name__) 
 app.config['SECRET_KEY']=os.urandom(24)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config["DOWNLOAD_FOLDER"]='downloads'
@@ -288,19 +288,7 @@ def upload_file():
             # filename = secure_filename(file.filename) #上传时的文件名
             filename = request.form.get("uuid") + '.' + file.filename.split('.')[-1]   #自定义文件名+保留原后缀名
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-
-            # #输入参数：
-            # times = request.form.get("times")
-            # n_feature=request.form.get("n_feature")
-
-            #在这里调用clf的code？用函数代替test.py模块，因为test.py本身就是在调用classify，tools
-            #running_clf()
-            #图片 直接保存到当前项 （具体：flask项目的stadic目录）
-            # show_figure()
-
-            #数据 则函数返回到当前函数
-            print("**************")
-            session["name"] = filename#"dd" #设置会话级参数name，实现点击超链接跳转到 下载页面
+            session["name"] = filename
 
             File_path = 'uploads/' + request.form.get("uuid") + '.csv'
             data = pd.read_csv(File_path).iloc[:, 2:].values
@@ -322,10 +310,7 @@ def download_file(name):
     if name[-4:]=='xlsx':
         directory="downloads/metrics"
     return send_from_directory(directory, name, as_attachment=True)
-    #return send_from_directory("downloads/metrics", name, as_attachment=True)
-    # 发现：加上as_attachment=True，才能直接下载到本地，而不是缓存到浏览器打开
-    # # url_for("download_file", name=name) 依据文件名生成下载 URL  所以下载使用这个命令就行
-    # return redirect(url_for('download_file', name=filename))
+
 
 @app.route('/try', methods=['POST'])
 def try_up():
@@ -333,4 +318,4 @@ def try_up():
 
 if __name__ == "__main__":
     #app.run()
-    app.run(host="0.0.0.0",port=80)#50008787 host="0.0.0.0",port=5000
+    app.run(host="0.0.0.0",port=80)
